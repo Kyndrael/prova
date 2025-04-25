@@ -1,0 +1,84 @@
+from fpdf import FPDF
+
+class FolderPDF(FPDF):
+    def header(self):
+        self.set_font("Arial", "B", 12)
+        self.set_text_color(33, 37, 41)
+        self.cell(0, 10, "INCLUSÃO É PARA TODOS", ln=True, align="C")
+
+    def add_section(self, title, text, image_note=""):
+        self.set_font("Arial", "B", 12)
+        self.set_text_color(0, 0, 0)
+        self.ln(5)
+        self.cell(0, 10, title, ln=True)
+        self.set_font("Arial", "", 11)
+        self.multi_cell(0, 8, text)
+        if image_note:
+            self.set_text_color(100, 100, 100)
+            self.set_font("Arial", "I", 10)
+            self.multi_cell(0, 6, f"[Foto: {image_note}]")
+        self.set_text_color(0, 0, 0)
+
+# Criar o PDF
+pdf = FolderPDF()
+pdf.set_auto_page_break(auto=True, margin=15)
+pdf.add_page()
+
+# Capa
+pdf.set_font("Arial", "B", 14)
+pdf.multi_cell(0, 10, "INCLUSÃO: UM DIREITO, UM COMPROMISSO\nEspaços acessíveis | Comunicação inclusiva | Sinalização adaptada\n\nJuntos construímos ambientes mais humanos e acessíveis para todos.")
+pdf.set_font("Arial", "I", 10)
+pdf.multi_cell(0, 8, "[Foto de capa: Entrada principal acessível ou rampa com corrimão]")
+
+# Acessibilidade Física
+physical_text = """Garantir que todos possam se mover com autonomia é fundamental.
+- Rampas de acesso
+- Elevadores com comandos em braile
+- Banheiros adaptados
+- Portas largas e pisos nivelados
+- Vagas reservadas em estacionamentos
+
+“Mobilidade é independência.”"""
+pdf.add_section("♿ Acessibilidade Física", physical_text, "Rampa ou banheiro acessível / Elevador com botões em braile")
+
+# Acessibilidade Linguística
+linguistic_text = """A comunicação deve ser compreensível para todos.
+- Intérprete de Libras em eventos e atendimentos
+- Materiais em linguagem simples
+- Sinalização visual clara e objetiva
+- Treinamento em comunicação inclusiva
+
+“Linguagem acessível é ponte, não barreira.”"""
+pdf.add_section("🗣️ Acessibilidade Linguística", linguistic_text, "Intérprete de Libras ou cartaz com linguagem simples / Placa com pictogramas")
+
+# Inclusão de Deficientes Visuais
+visual_text = """Orientação e mobilidade com segurança e dignidade.
+- Pisos táteis de alerta e direcional
+- Mapas táteis em locais públicos
+- Sinalização em braile
+- Cão-guia: entrada garantida
+- Comunicação verbal clara e respeitosa
+
+“Quem não vê, também enxerga o mundo com autonomia.”"""
+pdf.add_section("🦯 Inclusão de Deficientes Visuais", visual_text, "Piso tátil ou mapa tátil / Pessoa com cão-guia")
+
+# Contato
+pdf.ln(5)
+pdf.set_font("Arial", "B", 12)
+pdf.cell(0, 10, "Nosso compromisso com a inclusão", ln=True)
+pdf.set_font("Arial", "", 11)
+contact_info = """A acessibilidade não é um favor — é um direito.
+
+📞 Contato: [telefone]
+📧 E-mail: [email]
+🌐 Site: www.inclusaoexemplo.org.br
+📍 Endereço: Rua Exemplo, 123 - Centro
+
+[Foto institucional ou do time envolvido com o projeto de inclusão]
+
+Siga nossas ações:
+🔵 Instagram | 🔵 Facebook | 🔵 LinkedIn"""
+pdf.multi_cell(0, 8, contact_info)
+
+# Salvar o PDF
+pdf.output("folder_inclusao.pdf")
